@@ -63,3 +63,11 @@ html {
 .button{
   margin-top: 50px;
 }
+form a{
+  color: white;
+  text-decoration: none;
+}
+form a:hover{
+  color:white;
+  text-decoration: none;
+}

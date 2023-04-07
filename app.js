@@ -16,8 +16,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect(process.env.URL, {useNewUrlParser: true});
-console.log(process.env.URL);
+mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true});
 const postSchema = {
   title: String,
   content: String
@@ -27,12 +26,12 @@ const Post = mongoose.model("Post", postSchema);
 
 app.get("/", function(req, res){
 
-  Post.find({}, function(err, posts){
+  Post.find({}).then(posts=>{
     res.render("home", {
       startingContent: intro,
       posts: posts
       });
-  });
+  }).catch(err=>console.log(err));
 });
 
 app.get("/compose", function(req, res){
@@ -57,12 +56,12 @@ app.get("/posts/:postId", function(req, res){
 
 const requestedPostId = req.params.postId;
 
-  Post.findOne({_id: requestedPostId}, function(err, post){
+  Post.findOne({_id: requestedPostId}).then(post=>{
     res.render("post", {
       title: post.title,
       content: post.content
     });
-  });
+  }).catch(err=> console.log(err));
 
 });
 
@@ -72,6 +71,6 @@ app.get("/about", function(req, res){
 
 
 
-app.listen(3000, function() {
+app.listen(process.env.PORT||3000, function() {
   console.log("Server started on port 3000");
 });
