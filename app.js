@@ -45,7 +45,7 @@ app.post("/compose", function(req, res){
   });
 
 
-  post.save(function(err){
+  post.save().catch(err=>{
     if (!err){
         res.redirect("/");
     }
