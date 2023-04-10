@@ -45,11 +45,9 @@ app.post("/compose", function(req, res){
   });
 
 
-  post.save().catch(err=>{
-    if (!err){
-        res.redirect("/");
-    }
-  });
+  post.save().then(function(){
+   res.redirect("/");
+ }).catch(err=>console.log(err));
 });
 
 app.get("/posts/:postId", function(req, res){
